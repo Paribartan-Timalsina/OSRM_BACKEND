@@ -14,6 +14,7 @@ const userReservationSchema = new mongoose.Schema({
     ref: "ParkingLocation", // Reference to the ParkingLocation collection
     required: true,
   },
+
   vehicleType: {
     type: String,
     required: true,
@@ -26,9 +27,20 @@ const userReservationSchema = new mongoose.Schema({
     type: Date,
     required: true, // This will set the startTime to the current date and time when the reservation is created.
   },
-  reservedSpaceNumber: {
-    type: Number,
-    required: true,
+  // reservedSpaceNumber: {
+  //   type: Number,
+  //   required: true,
+  // },
+
+  payment: {
+    transatctionId: {
+      type: String,
+      required: true,
+    },
+    gateway: {
+      type: String,
+      required: true,
+    },
   },
 });
 
