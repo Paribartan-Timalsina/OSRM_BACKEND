@@ -144,24 +144,6 @@ exports.updateProfile = catchAsyncError(async (req, res, next) => {
 
   sendToken(user, 200, res);
 });
-exports.getallUsers = catchAsyncError(async (req, res, next) => {
-  const users = await User.find();
-  res.status(200).json({
-    success: true,
-    users,
-  });
-});
-
-exports.getSingleUser = catchAsyncError(async (req, res, next) => {
-  const user = await User.findById(req.params.id);
-  if (!user) {
-    return next(new ErrorHandler("User doesn't exists", 400));
-  }
-  res.status(200).json({
-    success: true,
-    user,
-  });
-});
 
 exports.updateRoles = catchAsyncError(async (req, res, next) => {
   const newUserData = {
