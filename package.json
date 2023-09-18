@@ -1,0 +1,37 @@
+{
+  "name": "ecommerce",
+  "version": "1.0.0",
+  "main": "backend/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
+    "core-js": "^3.32.2",
+    "dotenv": "^16.1.4",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongodb": "^5.6.0",
+    "mongoose": "^7.2.4",
+    "node-cron": "^3.0.2",
+    "nodemailer": "^6.9.3",
+    "nodemon": "^2.0.22",
+    "osm-p2p-db": "^4.4.1",
+    "validator": "^13.9.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ninix07/FullStackEcommerce.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ninix07/FullStackEcommerce/issues"
+  },
+  "homepage": "https://github.com/ninix07/FullStackEcommerce#readme",
+  "description": ""
+}
