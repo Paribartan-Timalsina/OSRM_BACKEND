@@ -30,7 +30,7 @@ process.on("unhandledRejection", (err) => {
   });
 });
 
-cron.schedule('* * * * *', () => {
-  console.log('Cron job is running...');
-  updateExpiredReservations();
-});
+// cron.schedule('* * * * *', () => {
+//   console.log('Cron job is running...');
+//   updateExpiredReservations();
+// });
