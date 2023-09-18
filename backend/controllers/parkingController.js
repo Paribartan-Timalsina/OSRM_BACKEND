@@ -1,5 +1,5 @@
 const ParkingLocation = require("../models/locationModel");
-const UserReservation = require("../models/parkingModel");
+const UserReservation = require("../models/userReservation");
 const ErrorHandler = require("../utils/errorHandler");
 const tryCatchAsync = require("../middleware/catchAsyncError");
 
@@ -108,4 +108,75 @@ exports.mybookingDetails = tryCatchAsync(async (req, res, next) => {
   UserReservation.find({ userId: userId })
     .populate("userId")
     .then((p) => console.log(p));
+});
+exports.createParkingReview = tryCatchAsync(async (req, res, next) => {
+  const { rating, comment, productId } = req.body;
+  const review = {
+    user: req.user._id,
+    name: req.user.name,
+    rating: Number(rating),
+    comment,
+  };
+  const parking = await ParkingLocation.findById(productId);
+  const isReviewed = parking.reviews.find(
+    (rev) => rev.user.toString() == req.user._id
+  );
+  if (isReviewed) {
+    parking.reviews.forEach((rev) => {
+      if (rev.user.toString() == req.user._id)
+        (rev.rating = rating), (rev.comment = comment);
+    });
+  } else {
+    parking.reviews.push(review);
+    parking.numOfReviews = product.reviews.length;
+  }
+  let avg = 0;
+  parking.reviews.forEach((rev) => (avg += rev.rating));
+  parking.rating = avg / parking.reviews.length;
+
+  await parking.save({ validateBeforeSave: false });
+  res.status(200).json({
+    success: true,
+  });
+});
+
+exports.getAllReviews = tryCatchAsync(async (req, res, next) => {
+  const parking = await ParkingLocation.findById(req.query.id);
+  if (!parking) {
+    return next(new ErrorHandler("No Parking found", 404));
+  }
+  res.status(200).json({
+    success: true,
+    reviews: parking.reviews,
+  });
+});
+exports.deleteReview = tryCatchAsync(async (req, res, next) => {
+  const parking = await ParkingLocation.findById(req.query.productId);
+  if (!parking) {
+    return next(new ErrorHandler("No Parking found", 404));
+  }
+  const reviews = parking.reviews.filter(
+    (rev) => rev._id.toString() !== req.query.id.toString()
+  );
+  let avg = 0;
+  reviews.forEach((rev) => (avg += rev.rating));
+  const rating = avg / parking.reviews.length;
+  const numOfReviews = reviews.length;
+  await ParkingLocation.findByIdAndUpdate(
+    req.query.productId,
+    {
+      reviews,
+      rating,
+      numOfReviews,
+    },
+    {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    }
+  );
+  await parking.save({ validateBeforeSave: false });
+  res.status(200).json({
+    success: true,
+  });
 });

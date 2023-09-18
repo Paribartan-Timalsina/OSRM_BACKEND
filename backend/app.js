@@ -2,9 +2,8 @@
 const express = require("express");
 const app = express();
 const errorMiddleware = require("./middleware/error");
-const products = require("./routes/productRoute");
 const user = require("./routes/userRoutes");
-const parking=require("./routes/parkingRoute");
+const parking = require("./routes/parkingRoute");
 const cookieParser = require("cookie-parser");
 //const cron=require("./controllers/updateReservation")
 app.use(express.json());

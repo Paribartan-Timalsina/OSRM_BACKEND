@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const User = require("./userModel");
-const ParkingLocation = require("./locationModel");
 
 // Schema for a User's Parking Reservation
 const userReservationSchema = new mongoose.Schema({

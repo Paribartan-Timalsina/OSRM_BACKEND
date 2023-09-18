@@ -1,13 +1,13 @@
-const cron = require('node-cron');
-const UserReservation = require('../models/parkingModel');
-const ParkingLocation = require('../models/locationModel');
+const cron = require("node-cron");
+const UserReservation = require("../models/userReservation");
+const ParkingLocation = require("../models/locationModel");
 
 // Function to check and update expired reservations
 const updateExpiredReservations = async () => {
   try {
-    console.log("hey 1 minut happened")
+    console.log("hey 1 minut happened");
     const currentTime = new Date();
-    
+
     // Find expired reservations
     const expiredReservations = await UserReservation.find({
       expirationTime: { $lte: currentTime },
@@ -16,9 +16,13 @@ const updateExpiredReservations = async () => {
 
     // Update parking spaces and reservations
     for (const reservation of expiredReservations) {
-      const parkingSpace = await ParkingLocation.findById(reservation.locationId)
-        .select('parkingSpaces')
-        .elemMatch('parkingSpaces', { spaceNumber: reservation.reservedSpaceNumber });
+      const parkingSpace = await ParkingLocation.findById(
+        reservation.locationId
+      )
+        .select("parkingSpaces")
+        .elemMatch("parkingSpaces", {
+          spaceNumber: reservation.reservedSpaceNumber,
+        });
 
       if (parkingSpace) {
         parkingSpace.parkingSpaces[0].isOccupied = false;
@@ -29,10 +33,10 @@ const updateExpiredReservations = async () => {
       await reservation.save();
     }
   } catch (error) {
-    console.error('Error updating expired reservations:', error);
+    console.error("Error updating expired reservations:", error);
   }
 };
 
 // Schedule the task to run every minute (adjust as needed)
 //cron.schedule('* * * * *', updateExpiredReservations);
-module.exports=updateExpiredReservations;
+module.exports = updateExpiredReservations;
