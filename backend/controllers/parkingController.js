@@ -8,9 +8,8 @@ exports.registerLocation = tryCatchAsync(async (req, res, next) => {
   // Create a new parking location
   const newLocation = new ParkingLocation({
     name,
-    address,
-    latitude,
-    longitude,
+    location,
+    categories,
     parkingSpaces,
   });
 
@@ -110,14 +109,14 @@ exports.mybookingDetails = tryCatchAsync(async (req, res, next) => {
     .then((p) => console.log(p));
 });
 exports.createParkingReview = tryCatchAsync(async (req, res, next) => {
-  const { rating, comment, productId } = req.body;
+  const { rating, comment, parkingLocationId } = req.body;
   const review = {
     user: req.user._id,
     name: req.user.name,
     rating: Number(rating),
     comment,
   };
-  const parking = await ParkingLocation.findById(productId);
+  const parking = await ParkingLocation.findById(parkingLocationId);
   const isReviewed = parking.reviews.find(
     (rev) => rev.user.toString() == req.user._id
   );
@@ -128,7 +127,7 @@ exports.createParkingReview = tryCatchAsync(async (req, res, next) => {
     });
   } else {
     parking.reviews.push(review);
-    parking.numOfReviews = product.reviews.length;
+    parking.numOfReviews = parking.reviews.length;
   }
   let avg = 0;
   parking.reviews.forEach((rev) => (avg += rev.rating));
