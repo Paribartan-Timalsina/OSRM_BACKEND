@@ -11,10 +11,10 @@ const {
   deleteReview,
 } = require("../controllers/parkingController");
 const { isUserAuthenticated } = require("../middleware/auth");
-router.route("/bookparking").post(confirmparking);
-router.route("/registerlocation").post(registerLocation);
+router.route("/bookparking").post(isUserAuthenticated, confirmparking);
+router.route("/registerlocation").post(isUserAuthenticated, registerLocation);
 router.route("/availableparkings").get(getAvailableParkingSpaces);
-router.route("/mybookingdetails").get(mybookingDetails);
+router.route("/mybookingdetails").get(isUserAuthenticated, mybookingDetails);
 router.route("/review").put(isUserAuthenticated, createParkingReview);
 router
   .route("/reviews/")
