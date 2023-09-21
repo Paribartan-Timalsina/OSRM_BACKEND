@@ -1,5 +1,5 @@
 const ParkingLocation = require("../models/locationModel");
-const UserReservation = require("../models/parkingModel");
+const UserReservation = require("../models/userReservation");
 const ErrorHandler = require("../utils/errorHandler");
 const tryCatchAsync = require("../middleware/catchAsyncError");
 const calculateDistances = require("./osmController");

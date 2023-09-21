@@ -1,5 +1,5 @@
 const cron = require("node-cron");
-const UserReservation = require("../models/parkingModel");
+const UserReservation = require("../models/userReservation");
 const ParkingLocation = require("../models/locationModel");
 
 // Function to check and update expired reservations
